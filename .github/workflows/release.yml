@@ -8,11 +8,11 @@ jobs:
     strategy:
       matrix:
         variant:
-          - { name: "Non-KSU", KSU: "None", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "false", LAST_BUILD: "false" }
-          - { name: "KSUN-Only", KSU: "Next", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "true", LAST_BUILD: "false" }
+          - { name: "Non KSU", KSU: "None", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "false", LAST_BUILD: "false" }
+          - { name: "KSUN Only", KSU: "Next", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "true", LAST_BUILD: "false" }
           - { name: "KSUN+SuSFS", KSU: "Next", KSU_SUSFS: "true", KSU_MANUAL_HOOK: "true", LAST_BUILD: "false" }
-          - { name: "SUKISU-Only", KSU: "Suki", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "false", LAST_BUILD: "false" }
-          - { name: "SUKISU+SuSFS", KSU: "Suki", KSU_SUSFS: "true", KSU_MANUAL_HOOK: "true", LAST_BUILD: "true" }
+          - { name: "RKSU Only", KSU: "Rissu", KSU_SUSFS: "false", KSU_MANUAL_HOOK: "true", LAST_BUILD: "false" }
+          - { name: "RKSU+SuSFS", KSU: "Rissu", KSU_SUSFS: "true", KSU_MANUAL_HOOK: "true", LAST_BUILD: "true" }
     name: Build ${{ matrix.variant.name }} variant
     uses: ./.github/workflows/build.yml
     secrets: inherit
@@ -83,15 +83,15 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           repository: ${{ env.RELEASE_REPO }}
-          name: "🔥 ${{ env.RELEASE_TAG }}"
+          name: ${{ env.RELEASE_TAG }}
           tag_name: ${{ env.RELEASE_TAG }}
           prerelease: true
           files: release_files/**/*
           body: |
-            ## 📢 ${{ env.RELEASE_TAG }} Builds
+            ## ${{ env.RELEASE_TAG }} Builds
             -> Linux ${{ env.LINUX_VERSION }} (android12-5.10-lts)
             -> KSU Next ${{ env.KSU_NEXT_VERSION }}
-            -> SukiSU ${{ env.SUKISU_VERSION }}
+            -> RKSU ${{ env.RKSU_VERSION }}
             -> SUSFS ඞ ${{ env.SUSFS_VERSION }}
 
             #### ✍️ Notes

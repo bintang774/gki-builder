@@ -28,7 +28,7 @@ cd $workdir
 log "Setting KernelSU variant..."
 case "$KSU" in
   "Next") VARIANT="KSUN" ;;
-  "Suki") VARIANT="SUKISU" ;;
+  "Rissu") VARIANT="RKSU" ;;
   "None") VARIANT="NKSU" ;;
 esac
 [[ $KSU_SUSFS == "true" ]] && VARIANT+="+SuSFS"
@@ -92,8 +92,10 @@ if ksu_included; then
   # Install kernelsu
   case "$KSU" in
     "Next") install_ksu KernelSU-Next/KernelSU-Next $(susfs_included && echo next-susfs || echo next) ;;
-    "Suki") install_ksu SukiSU-Ultra/SukiSU-Ultra $(susfs_included && echo susfs-dev || echo main) ;;
+    "Rissu") install_ksu rsuntk/KernelSU $(susfs_included && echo susfs-main || echo main) ;;
   esac
+
+  # Enable kernelsu config
   config --enable CONFIG_KSU
 fi
 
@@ -112,8 +114,11 @@ if [[ $KSU_MANUAL_HOOK == "true" ]]; then
   log "Applying manual hook patch"
   patch -p1 < $workdir/kernel-patches/manual-hook.patch || error "Failed to apply manual hook patch"
 
-  config --enable CONFIG_KSU_MANUAL_HOOK
-  config --disable CONFIG_KSU_KPROBES_HOOK
+  if [[ $KSU == "Rissu" ]]; then
+    config --enable CONFIG_KSU_MANUAL_HOOK
+  elif [[ $KSU == "Next" ]]; then
+    config --disable CONFIG_KSU_KPROBES_HOOK
+  fi
 fi
 
 # set localversion
@@ -125,11 +130,6 @@ if [[ $TODO == "kernel" ]]; then
     SUFFIX="release@${LATEST_COMMIT_HASH}"
   fi
   config --set-str CONFIG_LOCALVERSION "-$KERNEL_NAME/$SUFFIX"
-fi
-
-# Enable KPM Supports for SukiSU
-if [[ $KSU == "Suki" ]]; then
-  config --enable CONFIG_KPM
 fi
 
 # Declare needed variables
@@ -171,21 +171,6 @@ make $BUILD_FLAGS Image
 
 ## Post-compiling stuff
 cd $workdir
-
-# Patch the kernel Image for KPM Supports
-if [[ $KSU == "Suki" ]]; then
-  git clone -q --depth=1 https://github.com/ShirkNeko/SukiSU_patch suki-patch
-  # Setup
-  mkdir -p yesking && cd yesking
-  cp $workdir/suki-patch/kpm/patch_linux .
-  chmod a+x ./patch_linux
-  cp $KERNEL_IMAGE ./Image
-  # Patch kernel image
-  sudo ./patch_linux
-  mv oImage Image
-  KERNEL_IMAGE=$(pwd)/Image
-  cd -
-fi
 
 # Clone AnyKernel
 log "Cloning anykernel from $(simplify_gh_url "$ANYKERNEL_REPO")"
@@ -286,7 +271,7 @@ if [[ $LAST_BUILD == "true" && $STATUS != "BETA" ]]; then
     echo "LINUX_VERSION=$LINUX_VERSION"
     echo "SUSFS_VERSION=$(curl -s https://gitlab.com/simonpunk/susfs4ksu/raw/gki-android12-5.10/kernel_patches/include/linux/susfs.h | grep -E '^#define SUSFS_VERSION' | cut -d' ' -f3 | sed 's/"//g')"
     echo "KSU_NEXT_VERSION=$(gh api repos/KernelSU-Next/KernelSU-Next/tags --jq '.[0].name')"
-    echo "SUKISU_VERSION=$(gh api repos/SukiSU-Ultra/SukiSU-Ultra/tags --jq '.[0].name')"
+    echo "RKSU_VERSION=$(gh api repos/rsuntk/KernelSU/tags --jq '.[0].name')"
     echo "KERNEL_NAME=$KERNEL_NAME"
     echo "RELEASE_REPO=$(simplify_gh_url "$GKI_RELEASES_REPO")"
   ) >> $workdir/artifacts/info.txt

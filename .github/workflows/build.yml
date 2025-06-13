@@ -19,41 +19,37 @@ on:
   workflow_dispatch:
     inputs:
       TODO:
-        description: To do
-        default: "kernel"
+        description: What to do?
+        default: 'kernel'
         type: choice
         options:
           - "kernel"
           - "defconfig"
-
       KSU:
         description: KernelSU variant
-        default: "Next"
+        default: 'None'
         type: choice
         options:
           - "None"
           - "Next"
-          - "Suki"
-
+          - "Rissu"
       KSU_SUSFS:
         description: Include SUSFS?
-        default: "true"
+        default: 'false'
         type: choice
         options:
           - "true"
           - "false"
-
       KSU_MANUAL_HOOK:
         description: Use KSU Manual Hooks?
-        default: "true"
+        default: 'false'
         type: choice
         options:
           - "true"
           - "false"
-
       BUILD_BOOTIMG:
         description: Build Boot Image?
-        default: "false"
+        default: 'false'
         type: choice
         options:
           - "true"
