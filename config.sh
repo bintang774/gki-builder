@@ -16,7 +16,7 @@ KERNEL_DEFCONFIG="gki_defconfig"
 # Release repository
 GKI_RELEASES_REPO="https://github.com/bintang774/quartix-releases"
 # Clang
-CLANG_URL="$(./clang.sh aosp)"
+CLANG_URL="https://github.com/bintang774/idunno/releases/download/clang-r522817/clang.tgz"
 CLANG_BRANCH=""
 # Zip name
 # Format: Kernel_name-Linux_version-Variant-Build_date
