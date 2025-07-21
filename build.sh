@@ -40,7 +40,7 @@ ZIP_NAME=${ZIP_NAME//VARIANT/$VARIANT}
 CLANG_DIR="$workdir/clang"
 if [[ -z "$CLANG_BRANCH" ]]; then
   log "🔽 Downloading Clang..."
-  aria2c -q -c -x16 -s16 -k4M --file-allocation=falloc -o tarball "$CLANG_URL"
+  wget -qO tarball "$CLANG_URL"
   mkdir -p "$CLANG_DIR"
   tar -xf tarball -C "$CLANG_DIR"
   rm tarball
