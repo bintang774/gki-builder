@@ -111,8 +111,8 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          export MAN_DISABLE=true
-          sudo apt update -y
+          export MAN_DISABLE=true DEBIAN_FRONTEND=noninteractive
+          sudo apt update -qq
           sudo apt install -y bc cpio flex bison aptitude gh git python3 \
                               tar perl wget curl lz4 zstd libarchive-tools aria2
           sudo aptitude install -y libssl-dev
