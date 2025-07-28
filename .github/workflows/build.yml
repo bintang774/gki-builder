@@ -115,8 +115,8 @@ jobs:
           sudo apt update -qq
           sudo apt install -qq bc cpio flex bison aptitude gh git python3 \
                               tar perl wget curl lz4 zstd libarchive-tools aria2
-          sudo aptitude install -qq libssl-dev
-          pip install lxml
+          sudo aptitude install -y libssl-dev
+          python3 -m pip install lxml
 
       - name: Enable swap with high priority and swappiness
         run: |
