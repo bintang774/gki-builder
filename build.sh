@@ -71,16 +71,6 @@ export PATH="$CLANG_DIR/bin:$PATH"
 # Extract clang version
 COMPILER_STRING=$(clang -v 2>&1 | head -n 1 | sed 's/(https..*//' | sed 's/ version//')
 
-# Clone GCC if not available
-if ! ls $CLANG_DIR/bin | grep -q "aarch64-linux-gnu"; then
-  log "🔽 Cloning GCC..."
-  git clone --depth=1 -q https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-gnu-9.3 $workdir/gcc
-  export PATH="$workdir/gcc/bin:$PATH"
-  CROSS_COMPILE_PREFIX="aarch64-linux-"
-else
-  CROSS_COMPILE_PREFIX="aarch64-linux-gnu-"
-fi
-
 cd $KSRC
 
 ## KernelSU setup
@@ -158,7 +148,7 @@ fi
 export KBUILD_BUILD_USER="$USER"
 export KBUILD_BUILD_HOST="$HOST"
 export KBUILD_BUILD_TIMESTAMP=$(date)
-BUILD_FLAGS="-j$(nproc --all) ARCH=arm64 LLVM=1 LLVM_IAS=1 O=out CROSS_COMPILE=$CROSS_COMPILE_PREFIX"
+BUILD_FLAGS="-j$(nproc --all) ARCH=arm64 LLVM=1 LLVM_IAS=1 O=out CROSS_COMPILE=aarch64-linux-gnu-"
 KERNEL_IMAGE="$KSRC/out/arch/arm64/boot/Image"
 KMI_CHECK="$workdir/scripts/KMI_function_symbols_test.py"
 MODULE_SYMVERS="$KSRC/out/Module.symvers"
