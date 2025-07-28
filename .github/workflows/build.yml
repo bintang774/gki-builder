@@ -113,9 +113,9 @@ jobs:
         run: |
           export MAN_DISABLE=true DEBIAN_FRONTEND=noninteractive
           sudo apt update -qq
-          sudo apt install -y bc cpio flex bison aptitude gh git python3 \
+          sudo apt install -qq bc cpio flex bison aptitude gh git python3 \
                               tar perl wget curl lz4 zstd libarchive-tools aria2
-          sudo aptitude install -y libssl-dev
+          sudo aptitude install -qq libssl-dev
           pip install lxml
 
       - name: Enable swap with high priority and swappiness
