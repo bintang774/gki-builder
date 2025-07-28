@@ -40,7 +40,7 @@ ZIP_NAME=${ZIP_NAME//VARIANT/$VARIANT}
 CLANG_DIR="$workdir/clang"
 if [[ -z "$CLANG_BRANCH" ]]; then
   log "🔽 Downloading Clang..."
-  wget -qO clang-archive "$CLANG_URL"
+  wget --timeout=10 --tries=3 --retry-connrefused -qcO clang-archive "$CLANG_URL"
   mkdir -p "$CLANG_DIR"
   case "$(basename $CLANG_URL)" in
     *.tar.*)
