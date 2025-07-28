@@ -1,10 +1,9 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 set -x
-__DIR=$(dirname $0)
+__DIR="$(dirname "$(realpath "$0")")"
 if ! command -v shfmt &> /dev/null; then
   echo "Installing shfmt..."
   sleep 1
-  pkg update && pkg install shfmt -y
+  sudo apt-get -qq update && sudo apt-get -qq install -y shfmt
 fi
-
-find "$__DIR" -name "*.sh" -exec shfmt -w -i 2 -ci -sr -bn {} +
+find "$__DIR" -name "*.sh" -exec shfmt -w -i 2 -ci -sr -bn {} + -sr -bn {} +
