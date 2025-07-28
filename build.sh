@@ -2,7 +2,7 @@
 workdir=$(pwd)
 
 # Handle error
-set -euo pipefail
+set -e
 exec > >(tee $workdir/build.log) 2>&1
 trap 'error "Failed at line $LINENO [$BASH_COMMAND]"' ERR
 
