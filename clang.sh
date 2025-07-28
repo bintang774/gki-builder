@@ -44,7 +44,7 @@ case "$1" in
     get_latest_clang "$AOSP_REPO"
     ;;
   "yuki")
-    get_latest_clang "$YUKI_CLANG"
+    get_latest_clang "$YUKI_REPO"
     ;;
   "lilium")
     get_latest_clang "$LILIUM_REPO"
