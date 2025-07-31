@@ -11,7 +11,7 @@ ANYKERNEL_REPO="https://github.com/bintang774/anykernel"
 ANYKERNEL_BRANCH="gki"
 # Kernel Source
 KERNEL_REPO="https://github.com/bintang774/gki-android12-5.10"
-KERNEL_BRANCH="quartix/test"
+KERNEL_BRANCH="quartix/main"
 KERNEL_DEFCONFIG="gki_defconfig"
 # Release repository
 GKI_RELEASES_REPO="https://github.com/bintang774/quartix-releases"
